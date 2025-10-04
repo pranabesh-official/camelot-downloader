@@ -1,0 +1,9 @@
+{
+    "short_name": "Camelot Downloader",
+    "name": "Camelot Downloader - Simple Music Downloads",
+    "icons": [],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}

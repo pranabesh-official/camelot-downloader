@@ -1,0 +1,155 @@
+{
+    "name": "camelot-downloader",
+    "version": "1.0.0",
+    "description": "Camelot Downloader - Simple YouTube Music Downloader",
+    "author": "Camelot Downloader Team",
+    "private": true,
+    "homepage": "./",
+    "main": "buildMain/index.js",
+    "scripts": {
+        "lint": "npm run main-lint && npm run react-lint",
+        "dev": "concurrently \"npm run python-start\" \"npm run react-start\"",
+        "start": "concurrently \"npm run react-start\" \"npm run main-start\"",
+        "watch": "concurrently \"npm run main-watch\" \"npm run react-watch\"",
+        "build": "npm run python-build && npm run react-build && npm run main-build",
+        "build:mac": "npm run python-build && npm run react-build && tsc -p tsconfig.electronMain.json && electron-builder --mac --arm64",
+        "build:mac:x64": "npm run python-build && npm run react-build && tsc -p tsconfig.electronMain.json && electron-builder --mac --x64",
+        "build:mac:universal": "npm run python-build && npm run react-build && tsc -p tsconfig.electronMain.json && electron-builder --mac --universal",
+        "main-lint": "tslint -c tslint.json -p tsconfig.electronMain.json",
+        "main-start": "tsc -p tsconfig.electronMain.json && wait-on http://localhost:3001/ && cross-env NODE_ENV=development electron .",
+        "main-watch": "tsc -w -p tsconfig.electronMain.json",
+        "main-build": "tsc -p tsconfig.electronMain.json && electron-builder",
+        "react-lint": "tslint -c tslint.json -p tsconfig.json",
+        "react-start": "NODE_OPTIONS=--openssl-legacy-provider PORT=3001 react-scripts start",
+        "react-watch": "tsc -w -p tsconfig.json",
+        "react-build": "NODE_OPTIONS=--openssl-legacy-provider craco build",
+        "python-start": "cd python && python3 api.py --apiport 5002 --signingkey devkey",
+        "python-build": "shx rm -rf pythondist && python3 -m PyInstaller python/api.py --distpath pythondist --workpath build-py-temp --onedir && shx rm -rf build-py-temp && shx rm -f api.spec"
+    },
+    "dependencies": {
+        "@craco/craco": "^3.5.0",
+        "@supabase/supabase-js": "^2.56.0",
+        "@types/cross-spawn": "^6.0.0",
+        "@types/isomorphic-fetch": "0.0.35",
+        "@types/react": "^16.8.8",
+        "@types/react-dom": "^16.8.2",
+        "@types/superagent": "^4.1.1",
+        "@types/uuid": "^3.4.4",
+        "apollo-cache-inmemory": "^1.5.1",
+        "apollo-client": "^2.5.1",
+        "apollo-link-http": "^1.5.14",
+        "bufferutil": "^4.0.9",
+        "cross-spawn": "^6.0.5",
+        "dotenv": "^17.2.1",
+        "finalhandler": "^1.2.0",
+
+        "get-port": "^4.2.0",
+        "graphql": "^14.2.0",
+        "graphql-tag": "^2.10.1",
+        "isomorphic-fetch": "^2.2.1",
+        "lucide-react": "^0.542.0",
+        "react": "^16.8.4",
+        "react-dom": "^16.8.4",
+        "react-scripts": "3.0.1",
+        "serve-static": "^1.15.0",
+        "shx": "^0.3.2",
+        "socket.io-client": "^4.8.1",
+        "superagent": "^5.0.2",
+        "utf-8-validate": "^6.0.5",
+        "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "@types/babel__traverse": "^7.0.15",
+        "@types/node": "^18.19.123",
+        "buffer": "^6.0.3",
+        "concurrently": "^4.1.0",
+        "cross-env": "^5.2.0",
+        "crypto-browserify": "^3.12.1",
+        "electron": "^13.0.0",
+        "electron-builder": "^24.13.3",
+        "path-browserify": "^1.0.1",
+        "process": "^0.11.10",
+        "source-map-support": "^0.5.11",
+        "stream-browserify": "^3.0.0",
+        "tslint": "^5.9.1",
+        "tslint-config-standard": "^7.0.0",
+        "tslint-loader": "^3.5.3",
+        "tslint-react": "^3.4.0",
+        "typescript": "^5.9.2",
+        "util": "^0.12.5",
+        "wait-on": "^3.2.0"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "build": {
+        "appId": "com.camelotdownloader.app",
+        "productName": "Camelot Downloader",
+        "forceCodeSigning": false,
+        "asar": true,
+        "asarUnpack": [
+            "pythondist/api/api",
+            "python/**"
+        ],
+        "icon": "applogo.icns",
+        "directories": {
+            "buildResources": "build",
+            "output": "dist"
+        },
+        "extraMetadata": {
+            "main": "buildMain/index.js"
+        },
+        "files": [
+            "node_modules/**",
+            "buildMain/**",
+            "pythondist/**",
+            "python/**",
+            "build/**"
+        ],
+        "extraResources": [],
+        "extraFiles": [],
+        "mac": {
+            "target": [
+                {
+                    "target": "dmg",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                },
+                {
+                    "target": "zip",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                }
+            ]
+        },
+        "mas": {},
+        "dmg": {},
+        "pkg": {},
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                }
+            ]
+        },
+        "nsis": {},
+        "nsisWeb": {},
+        "portable": {},
+        "appx": {},
+        "squirrelWindows": {}
+    }
+}

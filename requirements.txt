@@ -1,0 +1,20 @@
+flask
+flask-cors
+flask-graphql
+graphene
+pyinstaller
+librosa
+mutagen
+pydub
+scipy
+numpy
+pandas
+essentia
+mirdata
+ytmusicapi
+pytube
+yt-dlp
+requests
+psutil
+# AI Model for Auto Mix
+llm
